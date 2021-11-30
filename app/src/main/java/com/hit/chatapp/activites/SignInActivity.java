@@ -1,11 +1,10 @@
 package com.hit.chatapp.activites;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.hit.chatapp.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.hit.chatapp.databinding.ActivitySignInBinding;
 
 public class SignInActivity extends AppCompatActivity {
