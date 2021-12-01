@@ -33,7 +33,7 @@
 
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activites.MainActivity"
             android:exported="true"/>
 
         <service
