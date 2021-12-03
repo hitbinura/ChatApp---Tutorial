@@ -2,6 +2,7 @@ package com.hit.chatapp.activites;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.hit.chatapp.adapters.UsersAdapter;
 import com.hit.chatapp.databinding.ActivityUsersBinding;
+import com.hit.chatapp.listeners.UserListeners;
 import com.hit.chatapp.models.User;
 import com.hit.chatapp.utilities.Constants;
 import com.hit.chatapp.utilities.PreferenceManager;
@@ -16,7 +18,7 @@ import com.hit.chatapp.utilities.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersActivity extends AppCompatActivity {
+public class Users extends AppCompatActivity implements UserListeners {
 
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
@@ -32,13 +34,13 @@ public class UsersActivity extends AppCompatActivity {
     }
     
     private void setListeners(){
-        binding.imageBack.setOnclickListener(v -> onBackPressed());
+        binding.imageBack.setOnClickListener(v -> onBackPressed());
     }
 
     private void getUser(){
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USER)
+        database.collection(Constants.KEY_COLLECTION_USERS)
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
@@ -54,12 +56,13 @@ public class UsersActivity extends AppCompatActivity {
                             user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
                             user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.id = queryDocumentSnapshot.getId();
                             users.add(user);
                         }
                         if(users.size() > 0){
                             UsersAdapter usersAdapter = new UsersAdapter(users);
-                            binding.usersRecyclerView.setAdapter(usersAdapter);
-                            binding.usersRecyclerView.setVisibility(View.VISIBLE);
+                            binding.userRecyclerView.setAdapter(usersAdapter);
+                            binding.userRecyclerView.setVisibility(View.VISIBLE);
 
                         }else {
                             showErrorMessage();
@@ -67,7 +70,7 @@ public class UsersActivity extends AppCompatActivity {
                     }else {
                         showErrorMessage();
                     }
-                })
+                });
 
     }
 
@@ -82,5 +85,12 @@ public class UsersActivity extends AppCompatActivity {
         }else {
             binding.progressBar.setVisibility(View.INVISIBLE);
         }
+    }
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), Chat.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+        finish();
     }
 }

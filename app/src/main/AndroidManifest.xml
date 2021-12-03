@@ -13,14 +13,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ChatApp">
         <activity
-            android:name=".activites.UsersActivity"
+            android:name=".activites.Chat"
             android:exported="false" />
         <activity
-            android:name=".activites.SignUpActivity"
+            android:name=".activites.Users"
+            android:exported="false" />
+        <activity
+            android:name=".activites.SignUp"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".activites.SignInActivity"
+            android:name=".activites.SignIn"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
 

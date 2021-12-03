@@ -9,14 +9,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.hit.chatapp.databinding.ActivitySignInBinding;
 import com.hit.chatapp.utilities.Constants;
 import com.hit.chatapp.utilities.PreferenceManager;
 
-public class SignInActivity extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
 
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
@@ -37,8 +36,8 @@ public class SignInActivity extends AppCompatActivity {
 
     private void setListeners() {
         binding.textCreateNewAccount.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), SignUpActivity.class)));
-        binding.buttonSignIn.setOnClickListener(v ->{
+                startActivity(new Intent(getApplicationContext(), SignUp.class)));
+        binding.btnSignIn.setOnClickListener(v ->{
           if(isValidSignInDetails()) {
                 signIn();
             }
@@ -48,7 +47,7 @@ public class SignInActivity extends AppCompatActivity {
     private void signIn(){
         loading(true);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
-        database.collection(Constants.KEY_COLLECTION_USER)
+        database.collection(Constants.KEY_COLLECTION_USERS)
                 .whereEqualTo(Constants.KEY_EMAIL, binding.inputEmail.getText().toString())
                 .whereEqualTo(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString())
                 .get()
@@ -73,11 +72,11 @@ public class SignInActivity extends AppCompatActivity {
 
     private void loading(Boolean isLoading){
         if(isLoading){
-            binding.buttonSignIn.setVisibility(View.INVISIBLE);
+            binding.btnSignIn.setVisibility(View.INVISIBLE);
             binding.progressBar.setVisibility(View.VISIBLE);
         }else{
             binding.progressBar.setVisibility(View.INVISIBLE);
-            binding.buttonSignIn.setVisibility(View.VISIBLE);
+            binding.btnSignIn.setVisibility(View.VISIBLE);
         }
     }
 

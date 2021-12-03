@@ -25,7 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
 
     private ActivitySignUpBinding binding;
     private PreferenceManager preferenceManager;
@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void setListener() {
         binding.textSignIn.setOnClickListener(v -> onBackPressed());
-        binding.buttonSignUp.setOnClickListener(v ->{
+        binding.btnSignUp.setOnClickListener(v ->{
             if(isValidSignUpDetails()){
                 signUp();
             }
@@ -67,7 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
         user.put(Constants.KEY_EMAIL, binding.inputEmail.getText().toString());
         user.put(Constants.KEY_PASSWORD, binding.inputPassword.getText().toString());
         user.put(Constants.KEY_IMAGE, encodedImage);
-        database.collection(Constants.KEY_COLLECTION_USER)
+        database.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
                 .addOnSuccessListener(documentReference -> {
                     loading(false);
@@ -150,11 +150,11 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void loading(Boolean isLoading){
         if(isLoading){
-            binding.buttonSignUp.setVisibility(View.INVISIBLE);
+            binding.btnSignUp.setVisibility(View.INVISIBLE);
             binding.progressBar.setVisibility(View.VISIBLE);
         }else {
             binding.progressBar.setVisibility(View.INVISIBLE);
-            binding.buttonSignUp.setVisibility(View.VISIBLE);
+            binding.btnSignUp.setVisibility(View.VISIBLE);
         }
     }
 }
